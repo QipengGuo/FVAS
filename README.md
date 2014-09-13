@@ -19,6 +19,7 @@ Quick Start
 copy data/ into this directory  
 $make   
 $./fudanvideo_demo  
+Or open our project in QT
 
 Main Method
 ===========
