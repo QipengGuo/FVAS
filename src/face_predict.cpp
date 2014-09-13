@@ -1,5 +1,5 @@
 /*
-*Copyright (c) 2014, Fudan Video Group
+*Copyright (c) 2014, School of Computer Science, Fudan University
 *This algorithm is conducted by following sequence
 *	1.Enlarge the image and detect whether there is a face or not.
 *	  If not, go to next loop. 

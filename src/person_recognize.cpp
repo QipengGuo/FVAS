@@ -1,5 +1,5 @@
 /*
- *Copyright (c) 2014, Fudan Video Group
+ * Copyright (c) 2014, School of Computer Science, Fudan University
  * Coder: Qipeng Guo, Yanye Li
  * School of Computer Science , Fudan university
  * Time: 2014

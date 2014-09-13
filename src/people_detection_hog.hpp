@@ -1,4 +1,4 @@
-/*Copyright (c) 2014, Fudan Video Group*/
+/*Copyright (c) 2014, School of Computer Science, Fudan University*/
 #ifndef PEOPLE_DETECTION_HOG_H
 #define PEOPLE_DETECTION_HOG_H
 

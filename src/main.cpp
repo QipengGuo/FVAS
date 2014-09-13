@@ -1,4 +1,4 @@
-/*Copyright (c) 2014, Fudan Video Group*/
+/*Copyright (c) 2014, School of Computer Science, Fudan University*/
 #include "system_struct.hpp"
 #include "FduVideo.hpp"
 
