@@ -24,15 +24,15 @@ Or open our project in QT
 Main Method
 ===========
 
-Tracking  
+Tracking:  
 	Optical flow from Opencv  
-Face Detection  
+Face Detection:  
 	HOG+SVM from Opencv  
-Body/Person Detection  
+Body/Person Detection:  
 	HOG+SVM from Opencv  
-Face Recognition  
+Face Recognition:  
 	ASM+LBP from Stasm and Opencv  
-Person Recognition/Re-Identification  
+Person Recognition/Re-Identification:  
 	Mid-level filters coding by our group  
 
 Output
@@ -41,7 +41,6 @@ Output
 Green windows represent body detection  
 Red windows represent face detection, and number shows the label by face recognition  
 White windows represent tracking, and number shows the label by person recognition  
-You can refer to these labels with data/face\_examples and data/person_examples   
 
 Reference
 =========
@@ -102,7 +101,7 @@ TO DO
 
 Note
 ====
- * Contributors: Qipeng Guo, Jiajun Ou, Yanye Li, Zhedong Zheng, Guangzheng Zhou, Fengdong Zhang, Dequan Wang
+ * Contributors: Qipeng Guo, Jiajun Ou, Yanye Li, Zhedong Zheng, Guangzhen Zhou, Fengdong Zhang, Dequan Wang
  * Thanks for helping from BarclayII, David Gao (Github account)
  * School of Computer Science , Fudan university
  * Time: 2014
