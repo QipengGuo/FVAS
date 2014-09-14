@@ -1,7 +1,6 @@
-/*
- * Copyright (c) 2014, School of Computer Science, Fudan University
+/* Copyright (c) 2014, School of Computer Science, Fudan University
  * Coder: Qipeng Guo, Yanye Li
- * School of Computer Science , Fudan university
+ * Department of Computer Science , Fudan university
  * Time: 2014
  *
  * Origin Paper:
@@ -280,7 +279,7 @@ void person_recognize::test_it(vector<bbox> & result_box, //o
     int items=0;
     svm_test(ranksvm_model, ranksvm_data[Par_num].L_items, ranksvm_data[Par_num].L_dim, ranksvm_data[Par_num].index, ranksvm_data[Par_num].data, ranksvm_data[Par_num].output);//call libSVM
     //calc partial ordering
-    //dist just for sort
+    sortsupport *dcount=new sortsupport[gallery_im.size()];
     for (int i=0;i<gallery_im.size();i++)
     {
         int count=0;
@@ -291,24 +290,25 @@ void person_recognize::test_it(vector<bbox> & result_box, //o
                 count++;
             }
         }
-        dist[i].index=gallery_im[i].im_index;
-        dist[i].filter_dist=count;
-        dist[i].patch_dist=0;
+        dcount[i].index=gallery_im[i].im_index;
+        dcount[i].filter_dist=count;
+        dcount[i].patch_dist=0;
     }
 
-    sort(dist, dist+gallery_im.size());
+    sort(dcount, dcount+gallery_im.size());
 
     result_box[box_index[patch_feats[n][0].im_index]].type_label=TYPE_TRACK;
     for (int i=0;i<opt.ntop;i++)
     {
-        if (i==0&&dist[i].filter_dist/gallery_im.size()<opt.tol_confidence)
+        if (i==0&&(dcount[i].filter_dist/gallery_im.size()<opt.tol_confidence||dist[i].filter_dist+dist[i].patch_dist<opt.tol_threshold))
         {
             result_box[box_index[patch_feats[n][0].im_index]].result_label.push_back(-1);
             break;
         }
-        result_box[box_index[patch_feats[n][0].im_index]].result_label.push_back(dist[i].index);
-        result_box[box_index[patch_feats[n][0].im_index]].prob.push_back(dist[i].filter_dist/gallery_im.size());
+        result_box[box_index[patch_feats[n][0].im_index]].result_label.push_back(dcount[i].index);
+        result_box[box_index[patch_feats[n][0].im_index]].prob.push_back(dcount[i].filter_dist/gallery_im.size());
     }
+    delete[] dcount;
     delete[] dist;
 }
 
@@ -364,8 +364,8 @@ vector<vector<feature> > person_recognize::Read_Extract_Train(const char * filen
         train_label[count]=temp;
         //sprintf(str1, "%s/%s" ,opt.current_path.c_str(), str2);
         Mat temp;
-        temp=imread(str1, -1);
-        Image.create(120, 40, CV_64FC3);
+        temp=imread(str2, -1);
+        Image.create(TRAIN_HEIGHT, TRAIN_WIDTH, CV_64FC3);
         resize(temp, Image, Image.size());
         Image=norm_image(Image, opt);
         result.push_back(get_features(Image, opt, count));
@@ -430,7 +430,7 @@ vector<vector<feature> > person_recognize::collect_aux(const vector<vector<featu
         }
         //aux-
         pos_index=b_search(neighbor, nodes[n][i]);
-        for (int j=0, k=0;k<opt.naux_neg&&j<opt.dist_threshold_KNN_for_affinity;j++) //wait to modify
+        for (int j=3, k=0;k<opt.naux_neg&&j<opt.dist_threshold_KNN_for_affinity;j++) //wait to modify
         {
             if (neighbor[pos_index][j].dist<opt.Epsi)
                 break;
@@ -650,7 +650,7 @@ vector<vector<feature> > person_recognize::Read_Extract(frame & data , //i:origi
     {
        Mat Image;
        Mat im_data(data.image(my_boxes[i]));
-       Mat box_data(120,40, CV_64FC3);//not appear in next version, the trainning dataset are 128x48 pixels
+       Mat box_data(TRAIN_HEIGHT,TRAIN_WIDTH, CV_64FC3);//not appear in next version, the trainning dataset are 128x48 pixels
        resize(im_data, box_data, box_data.size(),0, 0, CV_INTER_NN);
        Image=norm_image(box_data, opt);
        result[i]=get_features(Image, opt, i);
@@ -673,7 +673,7 @@ vector<vector<feature> > person_recognize::Read_Extract(const char * filename,
         sprintf(str1, "%s", str2);
         Mat temp;
         temp=imread(str1, -1);
-        Image.create(120, 40, CV_64FC3);
+        Image.create(TRAIN_HEIGHT, TRAIN_WIDTH, CV_64FC3);
         resize(temp, Image, Image.size());
         Image=norm_image(Image, opt);
         result.push_back(get_features(Image, opt, count));
@@ -753,7 +753,8 @@ double person_recognize::gauss_patch_dist(const vector<feature> &a,
                 temp=ptr1[j]-ptr2[j];
             sum+=temp*temp;
         }
-        ans+=exp(-(sum/(SIGMAP*SIGMAP)));
+        if (sum>EPSI)
+            ans+=exp(-(sum/(SIGMAP*SIGMAP)));
     }
     if (ans!=a.size())
     {

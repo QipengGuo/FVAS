@@ -28,6 +28,9 @@
 #define SIGMAP (2.8)
 #define TRAIN_FLAG (1)
 #define PAR_SIZE (8)
+#define TRAIN_HEIGHT (128)
+#define TRAIN_WIDTH (48)
+#define EPSI (1e-3)
 
 class person_recognize
 {

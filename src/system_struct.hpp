@@ -23,6 +23,13 @@ struct options
     };
     struct opt_track
     {
+        const double sigma{0.2};
+        const double lambda{0.01};
+        const double learning_rate{0.075};
+        const double compression_learning_rate{0.15};
+        const int non_compressed_feature{1};
+        const int compressed_feature{2};
+        const int num_compressed_dim{2};
 
         const double tol_err{45};
         const double limit_scale{0.3};
@@ -40,6 +47,14 @@ struct options
     };
     struct opt_person_detection
     {
+        const std::string person_model_path{"data/person_final.xml"};
+        CvLatentSvmDetector* detector;
+        const int tbbNumThreads{-1};
+        const double score_threshold{-1.164949};
+        const double score_upperbound{5.0};
+        const int width_thresh{50};
+        const int height_thresh{50};
+
         const double scale{0.5};
     };
     struct opt_face_recognition
@@ -59,8 +74,8 @@ struct options
     struct opt_person_recognition
     {
         const std::string current_path="data";
-        int Patch_Size{10}, Nx{30}, Ny{10}, nScale{3}, sift_nBins{4}, color_nBins{32}, color{3}, nori{8}, norm{4}, alpha{9}, num_angles{8}, h{2}, nstripe{10}, rand_neg{30}, nRank_neg{3}, naux_neg{8}, ntop{5} ;
-        double Epsi{1e-8}, Scale[REID_MAX_SCALE], clamp{0.2}, kstripe{0.3}, tol{0.1}, tol_confidence{0.8};
+        int Patch_Size{10}, Nx{30}, Ny{10}, nScale{3}, sift_nBins{4}, color_nBins{32}, color{3}, nori{8}, norm{4}, alpha{9}, num_angles{8}, h{2}, nstripe{10}, rand_neg{30}, nRank_neg{3}, naux_neg{8}, ntop{10} ;
+        double Epsi{1e-8}, Scale[REID_MAX_SCALE], clamp{0.2}, kstripe{0.3}, tol{0.1}, tol_confidence{0.7}, tol_threshold{0.4};
         int lower_bound{15}, upper_bound{300}, seleted_level{5}, dist_threshold_KNN_for_init_cluster{2}, hierachy_level{10}, split_into{4}, dist_threshold_KNN_for_affinity{30};
         double dist_threshold_KNN_rate_for_midselect{0.3}, scaling_a{1.0};
         cv::Mat Sigma, Sigma_edge;
