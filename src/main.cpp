@@ -23,7 +23,7 @@ std::string person_name(int label)
 int main(int argc, char *argv[])
 {
 
-    const string file="demo.avi";
+    const string file="data/origin.avi";
 
     options ops;
 
