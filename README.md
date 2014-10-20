@@ -106,3 +106,7 @@ Note
  * School of Computer Science , Fudan university
  * Time: 2014
 You can get more information from our website http://omap.fudan.edu.cn/FVAS
+
+Schedule
+========
+http://10.141.208.19/schedule.html
